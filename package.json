@@ -1,0 +1,33 @@
+{
+  "name": "house-game-test",
+  "version": "1.0.0",
+  "description": "Testing mchanics of a multiplayer phone game",
+  "main": "index.ts",
+  "scripts": {
+    "start": "npx ts-node ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhuynh314/house-game-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jhuynh314/house-game-test/issues"
+  },
+  "homepage": "https://github.com/jhuynh314/house-game-test#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "localtunnel": "^1.8.3",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.2",
+    "@types/node": "^22.15.18",
+    "@types/socket.io-client": "^1.4.36",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
