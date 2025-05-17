@@ -2,7 +2,7 @@ import express from "express";
 import { createServer } from "node:http";
 import { join } from "node:path";
 import { Server } from "socket.io";
-import {registerGameHandlers} from './sockets/gameHandlers';
+import {registerGameHandlers} from './backend/gameHandlers';
 
 async function main() {
   const app = express();
@@ -11,8 +11,9 @@ async function main() {
     connectionStateRecovery: {},
   });
 
+  app.use(express.static('./'));
   app.get("/", (req, res) => {
-    res.sendFile(join(__dirname, "startPage.html"));
+    res.sendFile(join(__dirname, "./ui/index.html"));
   });
 
   io.on("connection", async (socket) => {

@@ -2,9 +2,9 @@
   "name": "house-game-test",
   "version": "1.0.0",
   "description": "Testing mchanics of a multiplayer phone game",
-  "main": "index.ts",
+  "main": "./",
   "scripts": {
-    "start": "npx ts-node ./src/index.ts"
+    "start": "tsc | npx ts-node ./src/index.ts"
   },
   "repository": {
     "type": "git",
