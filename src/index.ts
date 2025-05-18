@@ -11,7 +11,7 @@ async function main() {
     connectionStateRecovery: {},
   });
 
-  app.use(express.static('./'));
+  app.use(express.static('./dist/ui'));
   app.get("/", (req, res) => {
     res.sendFile(join(__dirname, "./ui/index.html"));
   });

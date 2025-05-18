@@ -2,9 +2,13 @@
   "name": "house-game-test",
   "version": "1.0.0",
   "description": "Testing mchanics of a multiplayer phone game",
-  "main": "./",
+  "main": "./dist/",
   "scripts": {
-    "start": "tsc | npx ts-node ./src/index.ts"
+    "copy-html": "powershell Copy-Item -Path \"./src/ui/index.html\" -Destination \"./dist/ui/\"",
+    "copy-css": "powershell Copy-Item -Path \"./src/ui/css\" -Destination \"./dist/ui/\" -Recurse",
+    "clear-dist": "powershell Remove-Item \"./dist\" -Recurse",
+    "build": "npm run clear-dist && tsc && npm run copy-html && npm run copy-css",
+    "start": "node ./dist/index.js"
   },
   "repository": {
     "type": "git",

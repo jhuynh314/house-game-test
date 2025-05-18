@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>House Game Test</title>
-    <link rel="stylesheet" href="./src/ui/css/sections.css">
+    <link rel="stylesheet" href="./css/sections.css">
+    <link rel="stylesheet" href="./css/signInPage.css">
+
   </head>
   <body>
     <nav>
@@ -14,6 +16,11 @@
     </nav>
     <section id="sign-in-page" class="page active">
       <h1>Please Sign In</h1>
+      <form action="">
+        <label for="nickname">Nickname:</label>
+        <input id="nickname" type="input" autocomplete="off"/>
+    </form>
+    <button id="enter">Enter</button>
     </section>
 
     <section id="logged-in-page" class="page">
@@ -28,7 +35,7 @@
     <script>
         const socket = io();
     </script>
-    <script src="./build/ui/scripts/pageNavigationScripts.js"></script>
-    <script src="./build/ui/scripts/signInScripts.js"></script>
+    <script src="./scripts/pageNavigationScripts.js"></script>
+    <script src="./scripts/signInScripts.js"></script>
   </body>
 </html>

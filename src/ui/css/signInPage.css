@@ -1,0 +1,7 @@
+section > button{
+        background: none;
+        padding: 25px 5rem;
+        flex-grow: 1;
+        border-radius: 20rem;
+        margin: 0.25rem;
+}
