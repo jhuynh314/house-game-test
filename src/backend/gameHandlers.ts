@@ -1,5 +1,5 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
-import { registerConnectionEvents } from "./connectionEvents";
+import { registerConnectionEvents } from "./connectionEvents.js";
 
 function registerGameHandlers(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,

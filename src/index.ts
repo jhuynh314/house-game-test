@@ -1,22 +1,23 @@
 import express from "express";
 import { createServer } from "node:http";
 import { join } from "node:path";
-import { Server } from "socket.io";
-import {registerGameHandlers} from './backend/gameHandlers';
+import { Server } from 'socket.io';
+import { registerGameHandlers } from "./backend/gameHandlers.js";
 
 async function main() {
+
   const app = express();
   const server = createServer(app);
   const io = new Server(server, {
     connectionStateRecovery: {},
   });
 
-  app.use(express.static('./dist/ui'));
+  app.use(express.static("./dist/ui"));
   app.get("/", (req, res) => {
     res.sendFile(join(__dirname, "./ui/index.html"));
   });
 
-  io.on("connection", async (socket) => {
+  io.on("connection", async (socket: any) => {
     registerGameHandlers(io, socket);
   });
 

@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "Testing mchanics of a multiplayer phone game",
   "main": "./dist/",
+  "type": "module",
   "scripts": {
     "copy-html": "powershell Copy-Item -Path \"./src/ui/index.html\" -Destination \"./dist/ui/\"",
     "copy-css": "powershell Copy-Item -Path \"./src/ui/css\" -Destination \"./dist/ui/\" -Recurse",
     "clear-dist": "powershell Remove-Item \"./dist\" -Recurse",
     "build": "npm run clear-dist && tsc && npm run copy-html && npm run copy-css",
-    "start": "node ./dist/index.js"
+    "start-server": "node ./dist/index.js",
+    "start": "npm run build && npm run start-server"
   },
   "repository": {
     "type": "git",
@@ -24,7 +26,9 @@
     "express": "^5.1.0",
     "localtunnel": "^1.8.3",
     "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1"
+    "socket.io-client": "^4.8.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@types/express": "^5.0.2",
