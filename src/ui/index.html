@@ -1,43 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>House Game Test</title>
+    <link rel="stylesheet" href="./css/sections.css" />
+    <link rel="stylesheet" href="./css/signInPage.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>House Game Test</title>
-  <link rel="stylesheet" href="./css/sections.css" />
-  <link rel="stylesheet" href="./css/signInPage.css" />
-</head>
-
-<body>
-  <nav>
+  <body>
+    <!-- <nav>
     <button id="goToStartPageBtn" data-page="sign-in-page">Start Page</button>
     <button id="goToPageTwoBtn" data-page="logged-in-page">
       Logged in Page
     </button>
     <button id="goToPageThreeBtn" data-page="host-page">Host Page</button>
-  </nav>
-  <section id="sign-in-page" class="page active">
-    <h1>Please Sign In</h1>
-    <label for="nickname">Nickname:</label>
-    <input id="nickname" type="input" autocomplete="off" />
-    <button id="join-game-btn">Join Game</button>
-  </section>
+  </nav> -->
+    <section id="sign-in-page" class="page active">
+      <div id="sign-in-container" class="container">
+        <div class="header">
+          <h1>GAME NAME</h1>
+        </div>
+        <div class="signin">
+          <h2>Sign in</h2>
+          <label for="nickname">Nickname:</label>
+          <input id="nickname" type="input" autocomplete="off" />
+          <button id="join-game-btn">Join Game</button>
+        </div>
+        <div class="reconnect">
+          <h2>Reconnect</h2>
+          <div id="reconnect-container" class="container">
+            <button>placeholder</button>
+            <button>placeholder</button>
+            <button>placeholder</button>
+            <button>placeholder</button>
+            <button>placeholder</button>
+            <button>placeholder</button>
+            <button>placeholder</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <section id="logged-in-page" class="page">
-    <h1>You are logged in</h1>
-  </section>
+    <section id="logged-in-page" class="page">
+      <h1>You are logged in</h1>
+    </section>
 
-  <section id="host-page" class="page">
-    <h1>You are at the host page</h1>
-  </section>
+    <section id="host-page" class="page">
+      <h1>You are at the host page</h1>
+    </section>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    src = "./scripts/socket.js";
-  </script>
-  <script type="module" src="./scripts/pageNavigationScripts.js"></script>
-  <script type="module" src="./scripts/signInScripts.js"></script>
-</body>
-
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      src = "./scripts/socket.js";
+    </script>
+    <script type="module" src="./scripts/pageNavigationScripts.js"></script>
+    <script type="module" src="./scripts/signInScripts.js"></script>
+  </body>
 </html>

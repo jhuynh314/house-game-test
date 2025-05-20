@@ -5,12 +5,14 @@
   "main": "./dist/",
   "type": "module",
   "scripts": {
-    "copy-html": "powershell Copy-Item -Path \"./src/ui/index.html\" -Destination \"./dist/ui/\"",
-    "copy-css": "powershell Copy-Item -Path \"./src/ui/css\" -Destination \"./dist/ui/\" -Recurse",
     "clear-dist": "powershell Remove-Item \"./dist\" -Recurse",
-    "build": "npm run clear-dist && tsc && npm run copy-html && npm run copy-css",
+    "copy-html": "powershell Copy-Item -Path \"./src/ui/index.html\" -Destination \"./dist/ui/\"",
+    "copy-css": "powershell Copy-Item -Path \"./src/ui/css\" -Destination \"./dist/ui/\" -Recurse -Force",
+    "build": "tsc && npm run copy-html && npm run copy-css",
     "start-server": "node ./dist/index.js",
-    "start": "npm run build && npm run start-server"
+    "start": "npm run build && npm run start-server",
+    "start-no-build": "npm run copy-html && npm run copy-css && npm run start-server"
+
   },
   "repository": {
     "type": "git",
