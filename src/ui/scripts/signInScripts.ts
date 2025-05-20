@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (joinButton && nicknameInput) {
     joinButton.addEventListener("click", (e) => {
-      if (nicknameInput.value) socket.emit("join-game", nicknameInput.value);
+      if (nicknameInput.value) socket.emit("join-game", nicknameInput.value.trim());
     });
   }
 });
