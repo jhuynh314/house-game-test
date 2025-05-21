@@ -19,10 +19,10 @@ db.run(`
             );
         `);
 
-export function insertNewPlayer(name: string, socketId: string): void {
+export function insertNewPlayer(name: string, socketId: string, page: string): void {
   db.run(
-    `INSERT INTO players (name, socketId) VALUES (?, ?)`,
-    [name, socketId],
+    `INSERT INTO players (name, socketId, page) VALUES (?, ?, ?)`,
+    [name, socketId, page],
     (err) => {
       if (err) {
         console.log(err + ` ${name} or ${socketId} already used`);
@@ -33,18 +33,42 @@ export function insertNewPlayer(name: string, socketId: string): void {
   );
 }
 
-export function updatePlayerSocketId(name:string, socketId: string): void {
-  db.run(
-          `UPDATE players SET socketId = (?) WHERE name = (?)`,
-          [socketId, name],
-          (err) => {
-            if (err) {
-              console.log(err?.message);
-            } else {
-              console.log(`CONNECTION: ${name} reconnected`)
-            }
-          }
-        );
+export function updatePlayer(
+  name: string,
+  updates: { socketId?: string; page?: string }
+): void {
+  const fields: string[] = [];
+  const values: any[] = [];
+
+  if (updates.socketId !== undefined) {
+    fields.push("socketId = ?");
+    if(updates.socketId === ""){
+      values.push(null)
+    }else{
+      values.push(updates.socketId);
+    }
+  }
+
+  if (updates.page !== undefined) {
+    fields.push("page = ?");
+    values.push(updates.page);
+  }
+
+  if (fields.length === 0) {
+    return; // Nothing to update
+  }
+
+  const sql = `UPDATE players SET ${fields.join(", ")} WHERE name = ?`;
+  values.push(name);
+
+  db.run(sql, values, (err) => {
+    if (err) {
+      console.log(err?.message);
+    } else {
+      if(updates.socketId) {console.log(`CONNECTION: ${name} reconnected`)}
+      if(updates.page) {console.log(`UPDATE: ${name}'s page is now ${updates.page}`)}
+    }
+  });
 }
 
 export function getNameBySocketId(socketId: string): Promise<string | null> {
@@ -62,6 +86,16 @@ export function getNameBySocketId(socketId: string): Promise<string | null> {
         }
       }
     );
+  });
+}
+
+export function getPage(name: string): Promise<string|null> {
+  const sql =  `SELECT page FROM players WHERE name = ?`;
+  return new Promise((resolve,reject)=>{
+    db.get(sql, name, (err, row)=>{
+      if(err) reject(err);
+      else resolve((row as {page: string}).page);
+    });
   });
 }
 

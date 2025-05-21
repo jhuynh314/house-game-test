@@ -6,20 +6,17 @@
     <title>House Game Test</title>
     <link rel="stylesheet" href="./css/sections.css" />
     <link rel="stylesheet" href="./css/signInPage.css" />
+    <link rel="stylesheet" href="./css/loggedInPage.css" />
   </head>
 
   <body>
-    <!-- <nav>
-    <button id="goToStartPageBtn" data-page="sign-in-page">Start Page</button>
-    <button id="goToPageTwoBtn" data-page="logged-in-page">
-      Logged in Page
-    </button>
-    <button id="goToPageThreeBtn" data-page="host-page">Host Page</button>
-  </nav> -->
     <section id="sign-in-page" class="page active">
       <div id="sign-in-container" class="container">
         <div class="header">
-          <h1>GAME NAME</h1>
+          <div id="header-container" class="container">
+            <h1>GAME NAME</h1>
+            <button id="host-btn">Host</button>
+          </div>
         </div>
         <div class="signin">
           <h2>Sign in</h2>
@@ -44,6 +41,20 @@
 
     <section id="logged-in-page" class="page">
       <h1>You are logged in</h1>
+      <div id="logged-in-container">
+        <div>Hey</div>
+        <div>Hey</div>
+        <div>Hey</div>
+      </div>
+      <nav>
+        <button id="sign-in-page-btn" data-page="sign-in-page">
+          Start Page
+        </button>
+        <button id="logged-in-page-btn" data-page="logged-in-page">
+          Logged in Page
+        </button>
+        <button id="host-page-btn" data-page="host-page">Host Page</button>
+      </nav>
     </section>
 
     <section id="host-page" class="page">

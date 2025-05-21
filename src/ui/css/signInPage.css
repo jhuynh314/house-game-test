@@ -25,9 +25,29 @@ body {
   background-color: rgba(0, 0, 0, 0.154);
 }
 
-.header {
+#header-container {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 3fr, 1fr;
+}
+
+#header-container > h1 {
+  grid-column: 1 / -1;
+  margin: 0;
   font-size: 2rem;
   font-style: italic;
+}
+
+#header-container > #host-btn {
+  grid-column: 3; /* column 3 */
+  grid-row: 2; /* row 2 */
+  justify-self: end;
+  font-size: 1rem;
+  text-align: center;
+  border-radius: 2rem;
+  border-color: purple;
+  border-width: thick;
 }
 
 h2 {
@@ -52,10 +72,13 @@ h2 {
 .signin > #join-game-btn {
   display: block;
   width: inherit;
-  height: inherit;
   font-size: 1rem;
   margin: 0.5rem auto;
   padding: 0.5rem;
+  border-radius: 2rem;
+  height: 3rem;
+  border-color: purple;
+  border-width: thick;
 }
 
 #reconnect-container {
