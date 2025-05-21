@@ -2,6 +2,8 @@ import { Server, DefaultEventsMap, Socket } from "socket.io";
 import db, { getNameBySocketId, getPage, insertNewPlayer, updatePlayer } from "./db.js";
 import {PageName} from "./enums/pageNameEnum.js";
 import { RoomName } from "./enums/roomNameEnum.js";
+import { goToPage } from "./pageUpdates.js";
+import { joinRoom } from "./roomUpdates.js";
 
 function registerConnectionEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
@@ -24,9 +26,8 @@ function registerConnectionEvents(
 
   // Join the host room and go to the host page
   socket.on("host-game", async() =>{
-    socket.leave(RoomName.signIn);
-    socket.join(RoomName.host);
-    io.to(socket.id).emit('go-to-page', PageName.hostPage);
+    joinRoom(RoomName.host, socket)
+    goToPage(PageName.hostPage, socket.id, io);
   });
 
   // Check if the nickname already exists in the database
@@ -47,9 +48,13 @@ function registerConnectionEvents(
       // TODO: Will need a check that the socketId is not used already
       insertNewPlayer(name, socket.id, PageName.lobbyPage);
     }
-    socket.leave(RoomName.signIn)
-    socket.join(RoomName.game);
-    io.to(socket.id).emit('go-to-page',(await getPage(name)));
+    const pageName = await getPage(name);
+    if(pageName){
+      joinRoom(RoomName.game, socket);
+      goToPage(pageName, socket.id, io);
+    } else {
+      console.log(`${name} has no page associated with them`);
+    }
   });
 }
 
