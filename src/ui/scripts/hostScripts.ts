@@ -3,6 +3,7 @@ import socket from "./socket.js";
 document.addEventListener("DOMContentLoaded", () => {
   const playerContainer = document.getElementById("player-container");
   const signOutButton = document.getElementById("host-sign-out-btn");
+  const startGameButton = document.getElementById("start-game-btn");
 
   socket.on("update-host", (names: string[]) => {
     if (playerContainer) {
@@ -15,6 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
+
+  if (startGameButton) {
+    startGameButton.addEventListener("click", () => {
+      socket.emit("start-game");
+      startGameButton.setAttribute('disabled', 'disabled');
+    });
+  }
 
   if (signOutButton) {
     signOutButton.addEventListener("click", () => {

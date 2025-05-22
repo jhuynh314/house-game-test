@@ -5,6 +5,22 @@ body {
   overflow: hidden;
 }
 
+#lobby-page-container{
+  display: grid;
+  grid-template-rows: auto;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+#lobby-title {
+  font-size: 4rem;
+  margin: 0;
+}
+
+#lobby-message > h2 {
+  font-size: 2rem;
+}
+
 #lobby-page {
   height: 100vh;
   width: 100vw;

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/signInPage.css" />
     <link rel="stylesheet" href="./css/lobbyPage.css" />
     <link rel="stylesheet" href="./css/hostPage.css" />
+    <link rel="stylesheet" href="./css/gamePage.css" />
   </head>
 
   <body>
@@ -35,23 +36,49 @@
     </section>
 
     <section id="lobby-page" class="page">
-      <h1 id="lobby-title">Welcome Player</h1>
-      <div id="lobby-container">
-        <h2>Waiting for host to start game</h2>
-        <button id="sign-out-btn">Sign out</button>
+      <div id="lobby-page-container" class="container">
+        <div id="lobby-header">
+          <h1 id="lobby-title">Welcome Player</h1>
+        </div>
+        <div id="lobby-message">
+          <h2>Waiting for host to start game</h2>
+          <button id="sign-out-btn">Sign out</button>
+        </div>
       </div>
     </section>
 
     <section id="host-page" class="page">
-      <h1>Hosting</h1>
-      <div id="player-container" class="container">
-        <p>temporary text</p>
+      <div id="host-page-container" class="container">
+        <div id="host-header">
+          <h1>Hosting Game</h1>
+        </div>
+        <div id="player-container" class="container">
+          <p>temporary text</p>
+        </div>
+        <div id="button-container" class="container">
+          <button id="reset-players-btn">Reset Players</button>
+          <button id="start-game-btn">Start Game!</button>
+          <button id="host-sign-out-btn">Sign out</button>
+        </div>
       </div>
-      <div>
-        <button id="start-game-btn">Start Game!</button>
-      </div>
-      <div>
-        <button id="host-sign-out-btn">Sign out</button>
+    </section>
+
+    <section id="game-page" class="page">
+      <div id="game-page-container" class="container">
+        <div id="game-page-header">
+          <h1>Welcome to the game</h1>
+        </div>
+        <div id="player-cards-container"></div>
+        <div id="enter-room-container">
+          <button id="enter-room-btn">Enter Room</button>
+        </div>
+        <div id="room-selector-popup">
+          <div class="popup-content">
+            <p>What room are you entering?</p>
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -63,5 +90,6 @@
     <script type="module" src="./scripts/signInScripts.js"></script>
     <script type="module" src="./scripts/lobbyScripts.js"></script>
     <script type="module" src="./scripts/hostScripts.js"></script>
+    <script type="module" src="./scripts/gameScripts.js"></script>
   </body>
 </html>

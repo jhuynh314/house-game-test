@@ -1,7 +1,6 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
 import { PageName } from "./enums/pageNameEnum.js";
-import { getAllActivePlayers, getAllInactivePlayers, getNameBySocketId } from "./db.js";
-import { RoomName } from "./enums/roomNameEnum.js";
+import { getNameBySocketId } from "./db.js";
 import { updateHostPage, updateSigninPage } from "./pageUpdates.js";
 
 function registerPageEvents(

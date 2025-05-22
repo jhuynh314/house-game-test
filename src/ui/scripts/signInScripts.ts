@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   socket.on("update-signin", (inactivePlayers: string[]) => {
-    console.log(inactivePlayers);
     if (reconnectContainer) {
       reconnectContainer.innerHTML = "";
       inactivePlayers.forEach((player) => {
@@ -29,9 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         newButton.setAttribute("name-data", player);
         newButton.innerHTML = player;
         newButton.addEventListener("click", () => {
-          console.log("I was clicked");
           const name = newButton.getAttribute("name-data");
-          console.log("name");
           socket.emit("join-game", name);
         });
         reconnectContainer.appendChild(newButton);
