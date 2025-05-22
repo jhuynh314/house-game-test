@@ -6,7 +6,7 @@
     <title>House Game Test</title>
     <link rel="stylesheet" href="./css/sections.css" />
     <link rel="stylesheet" href="./css/signInPage.css" />
-    <link rel="stylesheet" href="./css/loggedInPage.css" />
+    <link rel="stylesheet" href="./css/lobbyPage.css" />
   </head>
 
   <body>
@@ -39,22 +39,19 @@
       </div>
     </section>
 
-    <section id="logged-in-page" class="page">
-      <h1>You are logged in</h1>
-      <div id="logged-in-container">
-        <div>Hey</div>
-        <div>Hey</div>
-        <div>Hey</div>
+    <section id="lobby-page" class="page">
+      <h1 id="lobby-title">Welcome Player</h1>
+      <div id="lobby-container">
+        <h2>Waiting for host to start game</h2>
+        <button id="sign-out-btn">Sign out</button>
       </div>
-      <nav>
+      <!-- <nav>
         <button id="sign-in-page-btn" data-page="sign-in-page">
           Start Page
         </button>
-        <button id="logged-in-page-btn" data-page="logged-in-page">
-          Logged in Page
-        </button>
+        <button id="lobby-page-btn" data-page="lobby-page">Lobby Page</button>
         <button id="host-page-btn" data-page="host-page">Host Page</button>
-      </nav>
+      </nav> -->
     </section>
 
     <section id="host-page" class="page">
@@ -67,5 +64,7 @@
     </script>
     <script type="module" src="./scripts/pageNavigationScripts.js"></script>
     <script type="module" src="./scripts/signInScripts.js"></script>
+    <script type="module" src="./scripts/lobbyScripts.js"></script>
+    <script type="module" src="./scripts/hostScripts.js"></script>
   </body>
 </html>

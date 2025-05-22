@@ -1,9 +1,9 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
-import db, { getNameBySocketId, getPage, insertNewPlayer, updatePlayer } from "./db.js";
+import db, { getNameBySocketId, getPage, insertNewPlayer, removePlayer, updatePlayer } from "./db.js";
 import {PageName} from "./enums/pageNameEnum.js";
 import { RoomName } from "./enums/roomNameEnum.js";
 import { goToPage } from "./pageUpdates.js";
-import { joinRoom } from "./roomUpdates.js";
+import { joinOnlyRoom } from "./roomUpdates.js";
 
 function registerConnectionEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
@@ -26,7 +26,7 @@ function registerConnectionEvents(
 
   // Join the host room and go to the host page
   socket.on("host-game", async() =>{
-    joinRoom(RoomName.host, socket)
+    joinOnlyRoom(RoomName.host, socket)
     goToPage(PageName.hostPage, socket.id, io);
   });
 
@@ -50,12 +50,20 @@ function registerConnectionEvents(
     }
     const pageName = await getPage(name);
     if(pageName){
-      joinRoom(RoomName.game, socket);
+      joinOnlyRoom(RoomName.game, socket);
       goToPage(pageName, socket.id, io);
     } else {
       console.log(`${name} has no page associated with them`);
     }
   });
+
+  socket.on("leave-game", async() =>{
+    const name = await getNameBySocketId(socket.id);
+    console.log(`PLAYER LEFT: ${name} has signed out`);
+    removePlayer(socket.id);
+    goToPage(PageName.signInPage, socket.id, io);
+    joinOnlyRoom(RoomName.signIn, socket);
+  })
 }
 
 function nameHasSocket(name: string): Promise<boolean> {

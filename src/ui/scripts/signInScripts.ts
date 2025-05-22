@@ -17,4 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
       socket.emit("host-game");
     });
   }
+
+  socket.on("update-signin", (inactivePlayers: string[]) => {
+    console.log(inactivePlayers);
+  });
 });
