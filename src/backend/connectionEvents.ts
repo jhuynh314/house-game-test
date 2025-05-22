@@ -2,7 +2,7 @@ import { Server, DefaultEventsMap, Socket } from "socket.io";
 import db, { getNameBySocketId, getPage, insertNewPlayer, removePlayer, updatePlayer } from "./db.js";
 import {PageName} from "./enums/pageNameEnum.js";
 import { RoomName } from "./enums/roomNameEnum.js";
-import { goToPage } from "./pageUpdates.js";
+import { goToPage, updateHostPage } from "./pageUpdates.js";
 import { joinOnlyRoom } from "./roomUpdates.js";
 
 function registerConnectionEvents(
@@ -22,6 +22,7 @@ function registerConnectionEvents(
       updatePlayer(name, { socketId: "" });
       console.log(`DISCONNECTION: ${name} disconnected: ${socket.id}`);
     }
+    updateHostPage(io);
   });
 
   // Join the host room and go to the host page
@@ -48,6 +49,7 @@ function registerConnectionEvents(
       // TODO: Will need a check that the socketId is not used already
       insertNewPlayer(name, socket.id, PageName.lobbyPage);
     }
+    updateHostPage(io);
     const pageName = await getPage(name);
     if(pageName){
       joinOnlyRoom(RoomName.game, socket);
@@ -63,6 +65,7 @@ function registerConnectionEvents(
     removePlayer(socket.id);
     goToPage(PageName.signInPage, socket.id, io);
     joinOnlyRoom(RoomName.signIn, socket);
+    updateHostPage(io);
   })
 }
 

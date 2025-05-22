@@ -2,6 +2,7 @@ import { Server, DefaultEventsMap, Socket } from "socket.io";
 import { PageName } from "./enums/pageNameEnum.js";
 import { getAllActivePlayers, getAllInactivePlayers, getNameBySocketId } from "./db.js";
 import { RoomName } from "./enums/roomNameEnum.js";
+import { updateHostPage } from "./pageUpdates.js";
 
 function registerPageEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
@@ -15,10 +16,7 @@ function registerPageEvents(
                 io.to(socket.id).emit('update-lobby', nickname);
                 break;
             case PageName.hostPage:
-                // Need list of all logged in players to display who is in the game
-                // should emit to the host room
-                const players = await getAllActivePlayers();
-                io.to(RoomName.host).emit('update-host', players);
+                await updateHostPage(io);
                 break;
             case PageName.gamePage:
                 // Need user name and items the player has
