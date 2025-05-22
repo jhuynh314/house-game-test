@@ -2,7 +2,7 @@ import { Server, DefaultEventsMap, Socket } from "socket.io";
 import { PageName } from "./enums/pageNameEnum.js";
 import { getAllActivePlayers, getAllInactivePlayers, getNameBySocketId } from "./db.js";
 import { RoomName } from "./enums/roomNameEnum.js";
-import { updateHostPage } from "./pageUpdates.js";
+import { updateHostPage, updateSigninPage } from "./pageUpdates.js";
 
 function registerPageEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
@@ -25,10 +25,7 @@ function registerPageEvents(
                 // Need user name and items the player has and items the room has
                 break;
             case PageName.signInPage:
-                // Need list of all players without socketId for reconnections
-                // should emit to sign in room
-                const inactivePlayers = await getAllInactivePlayers();
-                io.to(RoomName.signIn).emit('update-signin', inactivePlayers);
+                await updateSigninPage(io);
                 break;
             default:
                 break;

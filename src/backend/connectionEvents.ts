@@ -2,7 +2,7 @@ import { Server, DefaultEventsMap, Socket } from "socket.io";
 import db, { getNameBySocketId, getPage, insertNewPlayer, removePlayer, updatePlayer } from "./db.js";
 import {PageName} from "./enums/pageNameEnum.js";
 import { RoomName } from "./enums/roomNameEnum.js";
-import { goToPage, updateHostPage } from "./pageUpdates.js";
+import { goToPage, updateHostPage, updateSigninPage } from "./pageUpdates.js";
 import { joinOnlyRoom } from "./roomUpdates.js";
 
 function registerConnectionEvents(
@@ -11,6 +11,7 @@ function registerConnectionEvents(
 ) {
   console.log(`User connected : ${socket.id}`);
   socket.join(RoomName.signIn);
+  updateSigninPage(io);
 
 
   // On disconnect, I want to remove the socketId from the player database.
