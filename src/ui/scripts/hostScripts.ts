@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (playerContainer) {
       playerContainer.innerHTML = "";
       names.forEach((name) => {
-        console.log(name);
         const newp = document.createElement("p");
         newp.textContent = name;
         playerContainer.appendChild(newp);

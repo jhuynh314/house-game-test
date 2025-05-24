@@ -214,4 +214,18 @@ export function insertCard(holder: string, card: string): Promise<void> {
   });
 }
 
+export function getCards(holder: string): Promise<string[]> {
+  const sql = `SELECT card FROM cards WHERE holder = ?;`;
+  return new Promise((resolve, reject) => {
+    db.all(sql, [holder], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        const cards = (rows as { card: string }[]).map((row) => row.card);
+        resolve(cards);
+      }
+    });
+  });
+}
+
 export default db;
