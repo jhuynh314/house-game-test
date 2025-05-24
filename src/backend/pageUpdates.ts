@@ -4,6 +4,7 @@ import {
   getAllInactivePlayers,
   getCards,
   getNameBySocketId,
+  getRoomNames,
 } from "./db.js";
 import { RoomName } from "./enums/roomNameEnum.js";
 
@@ -45,8 +46,18 @@ export async function updateGamePage(
   // Need player name and the cards they have
   // emit should only go to the player who asked for the update
   const playerName = await getNameBySocketId(socket.id);
-  if(playerName){
+  if (playerName) {
     const playerCards = await getCards(playerName);
-    io.to(socket.id).emit("update-game", playerName, playerCards);
+    const roomNames = await getRoomNames();
+    io.to(socket.id).emit("update-game", playerName, playerCards, roomNames);
   }
+}
+
+export async function updateRoom(
+  roomName: string,
+  io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
+): Promise<void> {
+  const roomCards = await getCards(roomName);
+  console.log(roomCards);
+  io.to(roomName).emit("room-update", roomCards, roomName);
 }

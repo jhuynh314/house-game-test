@@ -16,20 +16,41 @@
   margin: 0;
 }
 
+.room-button {
+  display: none;
+  border-radius: 2rem;
+  height: 3rem;
+  width: -webkit-fill-available;
+  border-color: rgb(255, 157, 88);
+  border-width: thick;
+}
+
+.active {
+  display: block;
+}
+
 #player-cards-container {
+  display: grid;
+  grid-template-rows: auto;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.card-holder {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1rem;
   padding: 1rem;
 }
 
-#player-cards-container > h3 {
+.card-holder > h3 {
   border-radius: 1rem;
   padding-top: 2rem;
   padding-bottom: 2rem;
   font-size: 2rem;
   border-radius: 1rem;
   background-color: rgba(255, 255, 255, 0.636);
+  margin: 0;
 }
 
 #room-selector-popup {

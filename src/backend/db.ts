@@ -200,6 +200,20 @@ export function insertNewRoom(roomName: string): Promise<void> {
   });
 }
 
+export function getRoomNames(): Promise<string[]> {
+  const sql = `SELECT name FROM rooms`;
+  return new Promise((resolve, reject) => {
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        const names = (rows as { name: string }[]).map((row) => row.name);
+        resolve(names);
+      }
+    });
+  });
+}
+
 // ********************************************
 //  Card table
 // ********************************************

@@ -86,16 +86,22 @@
         <div id="game-page-header">
           <h1>Welcome to the game</h1>
         </div>
-        <div id="enter-room-container">
-          <button id="enter-room-btn">Enter Room</button>
-        </div>
         <div id="player-cards-container" class="container">
+          <div id="room-cards-title"></div>
+          <div id="room-cards" class="container card-holder"></div>
+          <button id="enter-room-btn" class="room-button active">
+            Enter Room
+          </button>
+          <button id="swap-cards-btn" class="room-button">Swap Cards</button>
+          <div id="player-cards" class="container card-holder"></div>
+          <div id="player-cards-title">Your cards</div>
         </div>
         <div id="room-selector-popup">
           <div class="popup-content">
-            <p>What room are you entering?</p>
-            <button id="yesBtn">Yes</button>
-            <button id="noBtn">No</button>
+            <div id="popup-title">
+              <p>What room are you entering?</p>
+            </div>
+            <div id="room-buttons-container"></div>
           </div>
         </div>
       </div>
