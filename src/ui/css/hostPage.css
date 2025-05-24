@@ -18,18 +18,37 @@
 }
 
 #player-container {
-  padding: .5rem;
+  padding: 0.5rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: .5rem;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0.5rem;
 }
 
 #player-container > p {
   padding: 0rem;
   border-radius: 1rem;
   background-color: rgba(0, 0, 0, 0.154);
-  font-size: 2rem;
+  font-size: 1rem;
   margin: 0;
+}
+
+#room-name-container {
+  padding: 0.5rem;
+  display: grid;
+  grid-template-rows: auto;
+  gap: 0.5rem;
+}
+
+#room-name-container > div {
+  padding: 0.5rem;
+}
+
+#room-name-container > label {
+  font-size: 1rem;
+}
+
+#room-name-container > div > input {
+  font-size: 1rem;
 }
 
 #button-container {

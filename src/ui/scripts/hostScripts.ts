@@ -19,7 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (startGameButton) {
     startGameButton.addEventListener("click", () => {
-      socket.emit("start-game");
+      const rooms = document.querySelectorAll<HTMLInputElement>(".room-name");
+      const roomNames: string[] = Array.from(rooms).map(room => room.value);
+
+      socket.emit("start-game", roomNames);
       startGameButton.setAttribute('disabled', 'disabled');
     });
   }

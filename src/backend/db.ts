@@ -19,6 +19,46 @@ db.run(`
             );
         `);
 
+db.run(`
+        CREATE TABLE IF NOT EXISTS rooms (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL UNIQUE
+            );
+        `);
+
+db.run(`
+        CREATE TABLE IF NOT EXISTS cards (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            holder TEXT,
+            card TEXT
+            );
+        `);
+
+export function clearDatabase(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const sql1 = "DELETE FROM players WHERE socketId IS NULL";
+    db.run(sql1, [], (err) => {
+      if (err) reject(err);
+      else {
+        const sql2 = "DELETE FROM rooms";
+        db.run(sql2, [], (err) => {
+          if (err) reject(err);
+          else {
+            const sql3 = "DELETE FROM cards";
+            db.run(sql3, [], (err) => {
+              if (err) reject(err);
+              else resolve();
+            });
+          }
+        });
+      }
+    });
+  });
+}
+
+// ********************************************
+//  Player table
+// ********************************************
 export function insertNewPlayer(
   name: string,
   socketId: string,
@@ -142,6 +182,34 @@ export function getAllInactivePlayers(): Promise<string[]> {
         const names = (rows as { name: string }[]).map((row) => row.name);
         resolve(names);
       }
+    });
+  });
+}
+
+// ********************************************
+//  Room table
+// ********************************************
+
+export function insertNewRoom(roomName: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const sql = "INSERT INTO rooms (name) VALUES (?)";
+    db.run(sql, [roomName], (err) => {
+      if (err) reject(err);
+      else resolve;
+    });
+  });
+}
+
+// ********************************************
+//  Card table
+// ********************************************
+
+export function insertCard(holder: string, card: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const sql = "INSERT INTO cards (holder, card) VALUES (?, ?)";
+    db.run(sql, [holder, card], (err) => {
+      if (err) reject(err);
+      else resolve;
     });
   });
 }
