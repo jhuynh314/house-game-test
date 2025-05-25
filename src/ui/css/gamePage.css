@@ -71,8 +71,14 @@
   z-index: 1000;
 }
 
+#room-buttons-container{
+  display: grid;
+  grid-template-rows: auto;
+  gap: 0.5rem;
+}
+
 .popup-content {
-  background: white;
+  background: rgb(255, 172, 112);
   padding: 20px;
   border-radius: 8px;
   text-align: center;
@@ -80,5 +86,9 @@
 }
 
 .popup-content button {
-  margin: 10px;
+  border-radius: 2rem;
+  height: 3rem;
+  width: -webkit-fill-available;
+  border-color: rgb(255, 140, 58);
+  border-width: thick;
 }
