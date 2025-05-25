@@ -49,7 +49,7 @@ export async function updateGamePage(
   if (playerName) {
     const playerCards = await getCards(playerName);
     const roomNames = await getRoomNames();
-    io.to(socket.id).emit("update-game", playerName, playerCards, roomNames);
+    io.to(socket.id).emit("update-game", playerName, playerCards.sort(), roomNames);
   }
 }
 
@@ -58,6 +58,5 @@ export async function updateRoom(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
 ): Promise<void> {
   const roomCards = await getCards(roomName);
-  console.log(roomCards);
-  io.to(roomName).emit("room-update", roomCards, roomName);
+  io.to(roomName).emit("room-update", roomCards.sort(), roomName);
 }

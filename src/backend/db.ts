@@ -223,7 +223,7 @@ export function insertCard(holder: string, card: string): Promise<void> {
     const sql = "INSERT INTO cards (holder, card) VALUES (?, ?)";
     db.run(sql, [holder, card], (err) => {
       if (err) reject(err);
-      else resolve;
+      else resolve();
     });
   });
 }
@@ -237,6 +237,23 @@ export function getCards(holder: string): Promise<string[]> {
       } else {
         const cards = (rows as { card: string }[]).map((row) => row.card);
         resolve(cards);
+      }
+    });
+  });
+}
+
+export function removeCard(holder: string, card: string): Promise<void> {
+  //Need to only get the first
+  return new Promise((resolve, reject) => {
+    const sql =
+      "DELETE FROM cards WHERE rowid = (SELECT rowid FROM cards WHERE holder = ? AND card = ? LIMIT 1)";
+    db.run(sql, [holder, card], (err) => {
+      if (err) {
+        console.log(err.message);
+        reject(err);
+      } else {
+        console.log(`removed ${card} from ${holder}`);
+        resolve();
       }
     });
   });
