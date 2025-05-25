@@ -41,7 +41,7 @@ db.run(`
             keyCard INTEGER,
             column TEXT,
             row INTEGER,
-            answer INTEGER UNIQUE
+            answer INTEGER
             );
         `);
 
