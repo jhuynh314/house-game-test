@@ -22,7 +22,8 @@ db.run(`
 db.run(`
         CREATE TABLE IF NOT EXISTS rooms (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL UNIQUE
+            name TEXT NOT NULL UNIQUE,
+            keyCard INTEGER
             );
         `);
 
@@ -31,6 +32,16 @@ db.run(`
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             holder TEXT,
             card TEXT
+            );
+        `);
+
+db.run(`
+        CREATE TABLE IF NOT EXISTS answerkey (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            keyCard INTEGER,
+            column TEXT,
+            row INTEGER,
+            answer INTEGER UNIQUE
             );
         `);
 
@@ -190,10 +201,13 @@ export function getAllInactivePlayers(): Promise<string[]> {
 //  Room table
 // ********************************************
 
-export function insertNewRoom(roomName: string): Promise<void> {
+export function insertNewRoom(
+  roomName: string,
+  keyCardNum: number
+): Promise<void> {
   return new Promise((resolve, reject) => {
-    const sql = "INSERT INTO rooms (name) VALUES (?)";
-    db.run(sql, [roomName], (err) => {
+    const sql = "INSERT INTO rooms (name, keyCard) VALUES (?, ?)";
+    db.run(sql, [roomName, keyCardNum], (err) => {
       if (err) reject(err);
       else resolve;
     });
@@ -209,6 +223,20 @@ export function getRoomNames(): Promise<string[]> {
       } else {
         const names = (rows as { name: string }[]).map((row) => row.name);
         resolve(names);
+      }
+    });
+  });
+}
+
+export function getAnswerKey(roomName: string): Promise<number> {
+  const sql = `SELECT keyCard FROM rooms WHERE name = ?`;
+  return new Promise((resolve, reject) => {
+    db.get(sql, [roomName], (err, row) => {
+      if (err) {
+        reject(err);
+      } else {
+        const keyCard = (row as { keyCard: number }).keyCard;
+        resolve(keyCard);
       }
     });
   });
@@ -252,8 +280,55 @@ export function removeCard(holder: string, card: string): Promise<void> {
         console.log(err.message);
         reject(err);
       } else {
-        console.log(`removed ${card} from ${holder}`);
         resolve();
+      }
+    });
+  });
+}
+
+// ********************************************
+//  Answerkey table
+// ********************************************
+
+export function insertAnswerKey(
+  keyCard: number,
+  column: string,
+  row: number,
+  answer: number
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const sql =
+      "INSERT INTO answerkey (keyCard, column, row, answer) VALUES (?, ?, ?, ?)";
+    db.run(sql, [keyCard, column, row, answer], (err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+}
+
+export function isAnswerKeyEmpty(): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT COUNT(*) as count FROM answerkey";
+    db.get(sql, [], (err, row) => {
+      if (err) reject(err);
+      else resolve((row as { count: number }).count === 0);
+    });
+  });
+}
+
+export function getAnswer(
+  keyCard: number,
+  column: string,
+  row: number
+): Promise<number | null> {
+  const sql = `SELECT answer FROM answerkey WHERE keyCard = ? AND column = ? AND row = ?;`;
+  return new Promise((resolve, reject) => {
+    db.get(sql, [keyCard, column, row], (err, row) => {
+      if (err) {
+        reject(err);
+      } else {
+        const answer = (row as { answer: number }).answer;
+        resolve(answer);
       }
     });
   });

@@ -21,8 +21,10 @@ function registerStartEvents(
 
     await clearDatabase();
 
+    let keyCardNum = 1;
     roomNames.forEach((roomName) => {
-      insertNewRoom(roomName);
+      insertNewRoom(roomName, keyCardNum);
+      keyCardNum ++;
     });
 
     const allSymbols = [];

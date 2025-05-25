@@ -11,6 +11,14 @@ document.addEventListener("DOMContentLoaded", () => {
     "room-buttons-container"
   );
   const roomCardsTitle = document.getElementById("room-cards-title");
+  const roomPasswordPopup = document.getElementById("room-password-popup");
+  const questionRoomName = document.getElementById("question-room-name");
+  const questionText = document.getElementById("question");
+  const answerText = document.getElementById("answer");
+  const answerTextBox = <HTMLInputElement>(
+    document.getElementById("answer-textbox")
+  );
+  const answerButton = document.getElementById("answer-btn");
 
   socket.on(
     "update-game",
@@ -45,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const newB = document.createElement("button");
             newB.textContent = roomName;
             newB.addEventListener("click", () => {
-              socket.emit("enter-room", roomName);
+              socket.emit("get-room-question", roomName);
               roomSelectorPopup!.style.display = "none";
             });
             roomButtonsContainer.appendChild(newB);
@@ -91,6 +99,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  socket.on(
+    "room-question",
+    (question: string, answer: string, roomName: string) => {
+      if (questionRoomName && questionText && answerText && roomPasswordPopup) {
+        questionRoomName.textContent = roomName;
+        questionText.textContent = question;
+        answerText.textContent = answer;
+        roomPasswordPopup.style.display = "flex";
+      }
+    }
+  );
+
   if (enterRoomButton && roomSelectorPopup) {
     enterRoomButton.addEventListener("click", () => {
       roomSelectorPopup.style.display = "flex";
@@ -115,6 +135,22 @@ document.addEventListener("DOMContentLoaded", () => {
   if (leaveRoomButton) {
     leaveRoomButton.addEventListener("click", () => {
       socket.emit("leave-room", roomCardsTitle!.textContent);
+    });
+  }
+
+  if (
+    roomPasswordPopup &&
+    answerButton &&
+    answerTextBox &&
+    answerText &&
+    questionRoomName
+  ) {
+    answerButton.addEventListener("click", () => {
+      if (answerTextBox.value === answerText.textContent) {
+        socket.emit("enter-room", questionRoomName.textContent);
+      }
+      answerTextBox.value = "";
+      roomPasswordPopup.style.display = "none";
     });
   }
 });

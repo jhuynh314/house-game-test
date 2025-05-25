@@ -8,7 +8,7 @@ import {
   updateSigninPage,
 } from "./pageUpdates.js";
 import { joinRoom, leaveRoom } from "./roomUpdates.js";
-import { getNameBySocketId, insertCard, removeCard } from "./db.js";
+import { getAnswer, getAnswerKey, getNameBySocketId, insertCard, removeCard } from "./db.js";
 
 function registerPageEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
@@ -60,6 +60,26 @@ function registerPageEvents(
       updateGamePage(io, socket);
     }
   );
+
+  socket.on(
+    "get-room-question",
+    async (roomName:string) =>{
+      // Get question and answer for room
+      const column = getRandomInt(0, 3);
+      const columnLetters = ["A", "B", "C", "D"];
+      const row = getRandomInt(0,3);
+      const answerKey = await getAnswerKey(roomName);
+      const question = `What number is at ${columnLetters[column]}${row}`;
+      const answer = await getAnswer(answerKey, columnLetters[column], row);
+      io.to(socket.id).emit("room-question", question, answer, roomName);
+    }
+  )
+}
+
+function getRandomInt(min: number, max: number): number {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 export { registerPageEvents };
