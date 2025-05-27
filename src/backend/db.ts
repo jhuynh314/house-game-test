@@ -1,3 +1,4 @@
+import { resolve } from "path";
 import sqlite3 from "sqlite3";
 
 sqlite3.verbose();
@@ -31,7 +32,8 @@ db.run(`
         CREATE TABLE IF NOT EXISTS cards (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             holder TEXT,
-            card TEXT
+            card TEXT,
+            position INTEGER
             );
         `);
 
@@ -159,14 +161,16 @@ export function getNameBySocketId(socketId: string): Promise<string | null> {
   });
 }
 
-export function getAllSocketIds():Promise<string[]>{
+export function getAllSocketIds(): Promise<string[]> {
   const sql = `SELECT socketId FROM players;`;
   return new Promise((resolve, reject) => {
     db.all(sql, [], (err, rows) => {
       if (err) {
         reject(err);
       } else {
-        const socketIds = (rows as { socketId: string }[]).map((row) => row.socketId);
+        const socketIds = (rows as { socketId: string }[]).map(
+          (row) => row.socketId
+        );
         resolve(socketIds);
       }
     });
@@ -260,10 +264,16 @@ export function getAnswerKey(roomName: string): Promise<number> {
 //  Card table
 // ********************************************
 
-export function insertCard(holder: string, card: string): Promise<void> {
+export function insertCard(
+  holder: string,
+  card: string,
+  position?: number
+): Promise<void> {
+  let p = 8;
+  if (position) p = position;
   return new Promise((resolve, reject) => {
-    const sql = "INSERT INTO cards (holder, card) VALUES (?, ?)";
-    db.run(sql, [holder, card], (err) => {
+    const sql = "INSERT INTO cards (holder, card, position) VALUES (?, ?, ?)";
+    db.run(sql, [holder, card, position], (err) => {
       if (err) reject(err);
       else resolve();
     });
@@ -271,7 +281,7 @@ export function insertCard(holder: string, card: string): Promise<void> {
 }
 
 export function getCards(holder: string): Promise<string[]> {
-  const sql = `SELECT card FROM cards WHERE holder = ?;`;
+  const sql = `SELECT card FROM cards WHERE holder = ? ORDER BY position ASC;`;
   return new Promise((resolve, reject) => {
     db.all(sql, [holder], (err, rows) => {
       if (err) {
@@ -292,6 +302,23 @@ export function removeCard(holder: string, card: string): Promise<void> {
     db.run(sql, [holder, card], (err) => {
       if (err) {
         console.log(err.message);
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
+
+export function updateCard(
+  holder: string,
+  position: number,
+  newCard: string
+): Promise<void> {
+  const sql = `UPDATE cards SET card = ? WHERE holder = ? AND position = ?`;
+  return new Promise((resolve, reject) => {
+    db.run(sql, [newCard, holder, position], (err) => {
+      if (err) {
         reject(err);
       } else {
         resolve();

@@ -8,7 +8,7 @@ import {
   updateSigninPage,
 } from "./pageUpdates.js";
 import { joinRoom, leaveRoom } from "./roomUpdates.js";
-import { getAnswer, getAnswerKey, getNameBySocketId, insertCard, removeCard } from "./db.js";
+import { getAnswer, getAnswerKey, getNameBySocketId, updateCard } from "./db.js";
 
 function registerPageEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
@@ -49,13 +49,10 @@ function registerPageEvents(
 
   socket.on(
     "swap-cards",
-    async (roomCard: string, playerCard: string, roomName: string) => {
+    async (roomCard: string, roomCardPos: number, playerCard: string, playerCardPos: number, roomName: string) => {
       const playerName = await getNameBySocketId(socket.id);
-      await removeCard(roomName, roomCard);
-      await removeCard(playerName!, playerCard);
-      await insertCard(roomName, playerCard);
-      await insertCard(playerName!, roomCard);
-
+      await updateCard(roomName, roomCardPos, playerCard);
+      await updateCard(playerName!, playerCardPos, roomCard);
       updateRoom(roomName, io);
       updateGamePage(io, socket);
     }

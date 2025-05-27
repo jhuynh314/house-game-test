@@ -39,10 +39,10 @@ function registerStartEvents(
 
     let i = 0;
     holders.forEach((holder) => {
-      insertCard(holder, shuffledSymbols[i++]);
-      insertCard(holder, shuffledSymbols[i++]);
-      insertCard(holder, shuffledSymbols[i++]);
-      insertCard(holder, shuffledSymbols[i++]);
+      insertCard(holder, shuffledSymbols[i++], 0);
+      insertCard(holder, shuffledSymbols[i++], 1);
+      insertCard(holder, shuffledSymbols[i++], 2);
+      insertCard(holder, shuffledSymbols[i++], 3);
     });
 
     activePlayers.forEach((aplayer) => {

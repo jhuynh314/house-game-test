@@ -29,9 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
       // player cards
       if (playerCardContainer) {
         playerCardContainer.innerHTML = "";
-        playerCards.forEach((card) => {
+        playerCards.forEach((card, index) => {
           const newH = document.createElement("h3");
           newH.classList.add("player-card");
+          newH.setAttribute("position", index.toString());
           newH.textContent = card;
 
           newH.addEventListener("click", () => {
@@ -72,10 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
       leaveRoomButton
     ) {
       roomCardContainer.innerHTML = "";
-      roomCards.forEach((card) => {
+      roomCards.forEach((card, index) => {
         const newH = document.createElement("h3");
         newH.textContent = card;
         newH.classList.add("room-card");
+        newH.setAttribute("position", index.toString());
 
         newH.addEventListener("click", () => {
           const pcards = document.querySelectorAll(".room-card");
@@ -122,15 +124,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (swapCardsButton) {
     swapCardsButton.addEventListener("click", () => {
-      const roomCard = document.querySelector(
-        ".room-card.highlighted"
-      )?.textContent;
-      const playerCard = document.querySelector(
-        ".player-card.highlighted"
-      )?.textContent;
+      const roomCard = document.querySelector(".room-card.highlighted");
+      const roomCardText = roomCard!.textContent;
+      const roomCardPosition = roomCard?.getAttribute("position");
+
+      const playerCard = document.querySelector(".player-card.highlighted");
+      const playerCardText = playerCard!.textContent;
+      const playerCardPos = playerCard!.getAttribute("position");
+      
       const roomName = roomCardsTitle!.textContent!;
       if (roomCard && playerCard && roomCardsTitle) {
-        socket.emit("swap-cards", roomCard, playerCard, roomName);
+        socket.emit(
+          "swap-cards",
+          roomCardText,
+          roomCardPosition,
+          playerCardText,
+          playerCardPos,
+          roomName
+        );
       }
     });
   }
