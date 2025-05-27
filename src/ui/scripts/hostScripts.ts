@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const playerContainer = document.getElementById("player-container");
   const signOutButton = document.getElementById("host-sign-out-btn");
   const startGameButton = document.getElementById("start-game-btn");
+  const removePlayersButton = document.getElementById("reset-players-btn");
   const addRoomButton = document.getElementById("add-room-btn");
   const removeRoomButton = document.getElementById("remove-room-btn");
   const roomNameContainer = document.getElementById("room-name-container");
@@ -32,6 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
   if (signOutButton) {
     signOutButton.addEventListener("click", () => {
       socket.emit("leave-game");
+    });
+  }
+
+  if (removePlayersButton) {
+    removePlayersButton.addEventListener("click", ()=>{
+      console.log("I was clicked")
+      socket.emit("remove-all-players");
     });
   }
 

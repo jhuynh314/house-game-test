@@ -1,6 +1,14 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
-import db, { getNameBySocketId, getPage, insertNewPlayer, removePlayer, updatePlayer } from "./db.js";
-import {PageName} from "./enums/pageNameEnum.js";
+import db, {
+  clearDatabase,
+  getAllSocketIds,
+  getNameBySocketId,
+  getPage,
+  insertNewPlayer,
+  removePlayer,
+  updatePlayer,
+} from "./db.js";
+import { PageName } from "./enums/pageNameEnum.js";
 import { RoomName } from "./enums/roomNameEnum.js";
 import { goToPage, updateHostPage, updateSigninPage } from "./pageUpdates.js";
 import { joinOnlyRoom } from "./roomUpdates.js";
@@ -12,7 +20,6 @@ function registerConnectionEvents(
   console.log(`User connected : ${socket.id}`);
   socket.join(RoomName.signIn);
   updateSigninPage(io);
-
 
   // On disconnect, I want to remove the socketId from the player database.
   // This is so that when the player re-connects and logs back in with the same nickname,
@@ -27,8 +34,8 @@ function registerConnectionEvents(
   });
 
   // Join the host room and go to the host page
-  socket.on("host-game", async() =>{
-    joinOnlyRoom(RoomName.host, socket)
+  socket.on("host-game", async () => {
+    joinOnlyRoom(RoomName.host, socket);
     goToPage(PageName.hostPage, socket.id, io);
   });
 
@@ -37,7 +44,7 @@ function registerConnectionEvents(
   //   if it does, and there is already a socketId -> someone is already logged in as that user, don't log in
   //   if it does not -> create a new row with the name and socketid
   // On successful join-game -> send the user to the correct page and join room
-  //   or lobby if they were not on a page already 
+  //   or lobby if they were not on a page already
   socket.on("join-game", async (name) => {
     if (await nameExists(name)) {
       if (await nameHasSocket(name)) {
@@ -52,7 +59,7 @@ function registerConnectionEvents(
     }
     updateHostPage(io);
     const pageName = await getPage(name);
-    if(pageName){
+    if (pageName) {
       joinOnlyRoom(RoomName.game, socket);
       goToPage(pageName, socket.id, io);
     } else {
@@ -60,14 +67,28 @@ function registerConnectionEvents(
     }
   });
 
-  socket.on("leave-game", async() =>{
+  socket.on("leave-game", async () => {
     const name = await getNameBySocketId(socket.id);
     console.log(`PLAYER LEFT: ${name} has signed out`);
     removePlayer(socket.id);
     goToPage(PageName.signInPage, socket.id, io);
     joinOnlyRoom(RoomName.signIn, socket);
     updateHostPage(io);
-  })
+  });
+
+  socket.on("remove-all-players", async () => {
+    console.log("I ame here");
+    const allSockets = io.sockets.sockets;
+    const allSocketIds = await getAllSocketIds();
+    allSocketIds.forEach((socketId)=>{
+      removePlayer(socketId);
+    })
+    allSockets.forEach((socket) => {
+      removePlayer(socket.id);
+      joinOnlyRoom(RoomName.signIn, socket);
+    });
+    io.emit("go-to-page", PageName.signInPage);
+  });
 }
 
 function nameHasSocket(name: string): Promise<boolean> {

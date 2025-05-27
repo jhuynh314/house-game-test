@@ -159,6 +159,20 @@ export function getNameBySocketId(socketId: string): Promise<string | null> {
   });
 }
 
+export function getAllSocketIds():Promise<string[]>{
+  const sql = `SELECT socketId FROM players;`;
+  return new Promise((resolve, reject) => {
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        const socketIds = (rows as { socketId: string }[]).map((row) => row.socketId);
+        resolve(socketIds);
+      }
+    });
+  });
+}
+
 export function getPage(name: string): Promise<string | null> {
   const sql = `SELECT page FROM players WHERE name = ?`;
   return new Promise((resolve, reject) => {
