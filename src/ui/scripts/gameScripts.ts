@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("answer-textbox")
   );
   const answerButton = document.getElementById("answer-btn");
+  const leaveButton = document.getElementById("leave-btn");
 
   socket.on(
     "update-game",
@@ -113,6 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (enterRoomButton && roomSelectorPopup) {
     enterRoomButton.addEventListener("click", () => {
+      answerButton?.classList.add("active");
+      leaveButton?.classList.remove("active");
       roomSelectorPopup.style.display = "flex";
     });
   }
@@ -134,7 +137,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (leaveRoomButton) {
     leaveRoomButton.addEventListener("click", () => {
-      socket.emit("leave-room", roomCardsTitle!.textContent);
+      socket.emit("get-room-question", roomCardsTitle!.textContent);
+      answerButton?.classList.remove("active");
+      leaveButton?.classList.add("active");
+    });
+  }
+
+  if (leaveButton) {
+    leaveButton.addEventListener("click", () => {
+      if (answerTextBox.value === answerText!.textContent) {
+        socket.emit("leave-room", roomCardsTitle!.textContent);
+      }
+      answerTextBox.value = "";
+      roomPasswordPopup!.style.display = "none";
     });
   }
 
