@@ -5,8 +5,8 @@ import {
   getCards,
   getNameBySocketId,
   getRoomNames,
-} from "./db.js";
-import { RoomName } from "./enums/roomNameEnum.js";
+} from "../db.js";
+import { RoomName } from "../enums/roomNameEnum.js";
 
 export function goToPage(
   page: string,

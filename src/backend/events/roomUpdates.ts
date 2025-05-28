@@ -1,5 +1,5 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
-import { RoomName } from "./enums/roomNameEnum.js";
+import { RoomName } from "../enums/roomNameEnum.js";
 
 export function joinOnlyRoom(
   joiningRoom: RoomName,

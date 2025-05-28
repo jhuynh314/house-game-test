@@ -5,9 +5,9 @@ import {
   insertCard,
   insertNewRoom,
   updatePlayer,
-} from "./db.js";
-import { RoomName } from "./enums/roomNameEnum.js";
-import { PageName } from "./enums/pageNameEnum.js";
+} from "../db.js";
+import { RoomName } from "../enums/roomNameEnum.js";
+import { PageName } from "../enums/pageNameEnum.js";
 
 function registerStartEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,

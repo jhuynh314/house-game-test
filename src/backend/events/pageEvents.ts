@@ -1,5 +1,5 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
-import { PageName } from "./enums/pageNameEnum.js";
+import { PageName } from "../enums/pageNameEnum.js";
 import {
   updateGamePage,
   updateHostPage,
@@ -8,7 +8,7 @@ import {
   updateSigninPage,
 } from "./pageUpdates.js";
 import { joinRoom, leaveRoom } from "./roomUpdates.js";
-import { getAnswer, getAnswerKey, getNameBySocketId, updateCard } from "./db.js";
+import { getAnswer, getAnswerKey, getNameBySocketId, updateCard } from "../db.js";
 
 function registerPageEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,

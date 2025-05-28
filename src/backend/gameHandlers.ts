@@ -1,7 +1,7 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
-import { registerConnectionEvents } from "./connectionEvents.js";
-import { registerPageEvents } from "./pageEvents.js";
-import { registerStartEvents } from "./startEvents.js";
+import { registerConnectionEvents } from "./events/connectionEvents.js";
+import { registerPageEvents } from "./events/pageEvents.js";
+import { registerStartEvents } from "./events/startEvents.js";
 import { insertAnswerKey, isAnswerKeyEmpty } from "./db.js";
 
 async function registerGameHandlers(

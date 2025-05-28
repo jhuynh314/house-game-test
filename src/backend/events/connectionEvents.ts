@@ -7,9 +7,9 @@ import db, {
   insertNewPlayer,
   removePlayer,
   updatePlayer,
-} from "./db.js";
-import { PageName } from "./enums/pageNameEnum.js";
-import { RoomName } from "./enums/roomNameEnum.js";
+} from "../db.js";
+import { PageName } from "../enums/pageNameEnum.js";
+import { RoomName } from "../enums/roomNameEnum.js";
 import { goToPage, updateHostPage, updateSigninPage } from "./pageUpdates.js";
 import { joinOnlyRoom } from "./roomUpdates.js";
 
