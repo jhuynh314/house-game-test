@@ -10,7 +10,8 @@ const db = new sqlite3.Database("game.db", (err) => {
   }
 });
 
-db.run(`
+db.serialize(() => {
+  db.run(`
         CREATE TABLE IF NOT EXISTS players (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
@@ -19,7 +20,7 @@ db.run(`
             );
         `);
 
-db.run(`
+  db.run(`
         CREATE TABLE IF NOT EXISTS rooms (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
@@ -27,7 +28,7 @@ db.run(`
             );
         `);
 
-db.run(`
+  db.run(`
         CREATE TABLE IF NOT EXISTS cards (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             holder TEXT,
@@ -36,7 +37,7 @@ db.run(`
             );
         `);
 
-db.run(`
+  db.run(`
         CREATE TABLE IF NOT EXISTS answerkey (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             keyCard INTEGER,
@@ -45,6 +46,7 @@ db.run(`
             answer INTEGER
             );
         `);
+});
 
 export function clearDatabase(): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -340,8 +342,10 @@ export function insertAnswerKey(
     const sql =
       "INSERT INTO answerkey (keyCard, column, row, answer) VALUES (?, ?, ?, ?)";
     db.run(sql, [keyCard, column, row, answer], (err) => {
-      if (err) reject(err);
-      else resolve();
+      if (err) {
+        console.log("I tried to insert but failed");
+        reject(err);
+      } else resolve();
     });
   });
 }
@@ -350,8 +354,11 @@ export function isAnswerKeyEmpty(): Promise<boolean> {
   return new Promise((resolve, reject) => {
     const sql = "SELECT COUNT(*) as count FROM answerkey";
     db.get(sql, [], (err, row) => {
-      if (err) reject(err);
-      else resolve((row as { count: number }).count === 0);
+      if (err) {
+        // console.log(err);
+        console.log("PIAJFAJWFSDF");
+        resolve(true);
+      } else resolve((row as { count: number }).count === 0);
     });
   });
 }
