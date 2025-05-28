@@ -1,4 +1,3 @@
-import { spawn } from 'child_process';
 import { app, BrowserWindow, shell } from 'electron';
 
 const createWindow = () =>{
