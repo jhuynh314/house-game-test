@@ -2,7 +2,7 @@
   "name": "house-game-test",
   "version": "1.0.0",
   "description": "Testing mchanics of a multiplayer phone game",
-  "main": "./dist/",
+  "main": "./dist/main.js",
   "type": "module",
   "scripts": {
     "clear-dist": "powershell Remove-Item \"./dist\" -Recurse",
@@ -11,8 +11,9 @@
     "build": "tsc && npm run copy-html && npm run copy-css",
     "start-server": "node ./dist/index.js",
     "start": "npm run build && npm run start-server",
-    "start-no-build": "npm run copy-html && npm run copy-css && npm run start-server"
-
+    "start-no-build": "npm run copy-html && npm run copy-css && npm run start-server",
+    "electron": "electron .",
+    "app": "concurrently \"npm run start\" \"wait-on tcp:3000 && electron .\" -k"
   },
   "repository": {
     "type": "git",
@@ -25,17 +26,20 @@
   },
   "homepage": "https://github.com/jhuynh314/house-game-test#readme",
   "dependencies": {
+    "concurrently": "^9.1.2",
     "express": "^5.1.0",
     "localtunnel": "^1.8.3",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "wait-on": "^8.0.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.2",
     "@types/node": "^22.15.18",
     "@types/socket.io-client": "^1.4.36",
+    "electron": "^36.3.1",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
