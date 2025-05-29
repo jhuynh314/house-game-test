@@ -29,6 +29,7 @@
     "concurrently": "^9.1.2",
     "express": "^5.1.0",
     "localtunnel": "^1.8.3",
+    "qrcode": "^1.5.4",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "sqlite": "^5.1.1",
@@ -38,6 +39,7 @@
   "devDependencies": {
     "@types/express": "^5.0.2",
     "@types/node": "^22.15.18",
+    "@types/qrcode": "^1.5.5",
     "@types/socket.io-client": "^1.4.36",
     "electron": "^36.3.1",
     "nodemon": "^3.1.10",

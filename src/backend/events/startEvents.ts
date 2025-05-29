@@ -15,6 +15,8 @@ function registerStartEvents(
 ) {
   socket.on("start-game", async (roomNames: string[]) => {
     const symbols = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"];
+    // const symbols = ["!", "@", "#", "$", "%", "^", "&", "*", "<", ">", ";", "-", "=", "+", "~", "?"];
+
     const activePlayers = await getAllActivePlayers();
     const numOfSymbols = roomNames.length + activePlayers.length;
     const holders = activePlayers.concat(roomNames);

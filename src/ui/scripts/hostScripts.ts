@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const addRoomButton = document.getElementById("add-room-btn");
   const removeRoomButton = document.getElementById("remove-room-btn");
   const roomNameContainer = document.getElementById("room-name-container");
+  const qrCodeImage = <HTMLImageElement>document.getElementById("qr");
 
   socket.on("update-host", (names: string[]) => {
     if (playerContainer) {
@@ -18,6 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
         playerContainer.appendChild(newp);
       });
     }
+  });
+
+  socket.on("update-qr-code", (dataUrl: string)=>{
+    console.log("I made it here");
+    qrCodeImage!.src = dataUrl;
   });
 
   if (startGameButton) {

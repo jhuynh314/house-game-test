@@ -1,6 +1,5 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
 import db, {
-  clearDatabase,
   getAllSocketIds,
   getNameBySocketId,
   getPage,

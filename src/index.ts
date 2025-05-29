@@ -4,6 +4,8 @@ import { join } from "node:path";
 import { Server } from "socket.io";
 import { registerGameHandlers } from "./backend/gameHandlers.js";
 import { insertAnswerKey, isAnswerKeyEmpty } from "./backend/db.js";
+import { getLocalIp } from "./backend/utils/getLocalIp.js";
+import QRCode from 'qrcode';
 
 async function main() {
   const app = express();
@@ -21,6 +23,9 @@ async function main() {
 
   io.on("connection", async (socket: any) => {
     registerGameHandlers(io, socket);
+    const url = `http://${ip}:3000`;
+    const dataUrl = await QRCode.toDataURL(url);
+    io.emit("update-qr-code", dataUrl);
   });
 
   server.listen(3000, () => {
