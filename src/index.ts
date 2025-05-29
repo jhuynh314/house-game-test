@@ -23,6 +23,8 @@ async function main() {
 
   io.on("connection", async (socket: any) => {
     registerGameHandlers(io, socket);
+    
+    const ip = getLocalIp();
     const url = `http://${ip}:3000`;
     const dataUrl = await QRCode.toDataURL(url);
     io.emit("update-qr-code", dataUrl);
