@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   socket.on("update-qr-code", (dataUrl: string)=>{
-    console.log("I made it here");
     qrCodeImage!.src = dataUrl;
   });
 
@@ -44,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (removePlayersButton) {
     removePlayersButton.addEventListener("click", ()=>{
-      console.log("I was clicked")
       socket.emit("remove-all-players");
     });
   }

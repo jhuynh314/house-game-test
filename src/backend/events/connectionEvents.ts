@@ -1,10 +1,10 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
 import db, {
-  getAllSocketIds,
   getNameBySocketId,
   getPage,
   insertNewPlayer,
   removePlayer,
+  resetPlayers,
   updatePlayer,
 } from "../db.js";
 import { PageName } from "../enums/pageNameEnum.js";
@@ -76,17 +76,15 @@ function registerConnectionEvents(
   });
 
   socket.on("remove-all-players", async () => {
-    console.log("I ame here");
     const allSockets = io.sockets.sockets;
-    const allSocketIds = await getAllSocketIds();
-    allSocketIds.forEach((socketId)=>{
-      removePlayer(socketId);
-    })
-    allSockets.forEach((socket) => {
-      removePlayer(socket.id);
-      joinOnlyRoom(RoomName.signIn, socket);
+    allSockets.forEach((sock) => {
+      if (sock.id !== socket.id) {
+        joinOnlyRoom(RoomName.signIn, sock);
+      }
     });
-    io.emit("go-to-page", PageName.signInPage);
+    io.except(socket.id).emit("go-to-page", PageName.signInPage);
+    resetPlayers();
+    updateHostPage(io);
   });
 }
 

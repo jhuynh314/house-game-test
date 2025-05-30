@@ -70,6 +70,22 @@ export function clearDatabase(): Promise<void> {
   });
 }
 
+export function resetPlayers(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const sql1 = "DELETE FROM players";
+    db.run(sql1, [], (err) => {
+      if (err) reject(err);
+      else {
+        const sql2 = "DELETE FROM cards";
+        db.run(sql2, [], (err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      }
+    });
+  });
+}
+
 // ********************************************
 //  Player table
 // ********************************************
