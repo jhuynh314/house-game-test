@@ -32,12 +32,6 @@ function registerConnectionEvents(
     updateHostPage(io);
   });
 
-  // Join the host room and go to the host page
-  socket.on("host-game", async () => {
-    joinOnlyRoom(RoomName.host, socket);
-    goToPage(PageName.hostPage, socket.id, io);
-  });
-
   // Check if the nickname already exists in the database
   //   if it does, and there is no socketId -> log in and assign this socketid
   //   if it does, and there is already a socketId -> someone is already logged in as that user, don't log in
@@ -72,18 +66,6 @@ function registerConnectionEvents(
     removePlayer(socket.id);
     goToPage(PageName.signInPage, socket.id, io);
     joinOnlyRoom(RoomName.signIn, socket);
-    updateHostPage(io);
-  });
-
-  socket.on("remove-all-players", async () => {
-    const allSockets = io.sockets.sockets;
-    allSockets.forEach((sock) => {
-      if (sock.id !== socket.id) {
-        joinOnlyRoom(RoomName.signIn, sock);
-      }
-    });
-    io.except(socket.id).emit("go-to-page", PageName.signInPage);
-    resetPlayers();
     updateHostPage(io);
   });
 }
