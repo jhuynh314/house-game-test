@@ -3,9 +3,9 @@ import { createServer } from "node:http";
 import { join } from "node:path";
 import { Server } from "socket.io";
 import { registerGameHandlers } from "./backend/gameHandlers.js";
-import { insertAnswerKey, isAnswerKeyEmpty } from "./backend/db.js";
 import { getLocalIp } from "./backend/utils/getLocalIp.js";
 import QRCode from 'qrcode';
+import { isAnswerKeyEmpty, insertAnswerKey } from "./backend/database/answerkeyTableFunctions.js";
 
 async function main() {
   const app = express();
@@ -23,7 +23,7 @@ async function main() {
 
   io.on("connection", async (socket: any) => {
     registerGameHandlers(io, socket);
-    
+
     const ip = getLocalIp();
     const url = `http://${ip}:3000`;
     const dataUrl = await QRCode.toDataURL(url);
@@ -59,7 +59,7 @@ async function createAnswerKey(): Promise<void> {
     keycards.forEach(async (keycard, index) => {
       for (let i = 0; i <= 3; i++) {
         for (let j = 1; j <= 4; j++) {
-          insertAnswerKey(index + 1, columnLetters[i], j, keycard[i * 4 + (j-1)]);
+          insertAnswerKey(index + 1, columnLetters[i], j, keycard[i * 4 + (j - 1)]);
         }
       }
     });

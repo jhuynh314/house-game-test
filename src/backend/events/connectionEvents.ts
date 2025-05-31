@@ -1,11 +1,8 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
-import {
-  getNameBySocketId,
-  updatePlayer,
-} from "../db.js";
 import { RoomName } from "../enums/roomNameEnum.js";
 import { updateHostPage } from "./hostEvents.js";
 import { updateSigninPage } from "./signInEvents.js";
+import { getNameBySocketId, updatePlayer } from "../database/playersTableFunctions.js";
 
 function registerConnectionEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,

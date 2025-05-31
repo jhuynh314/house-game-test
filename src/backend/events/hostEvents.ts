@@ -2,8 +2,11 @@ import { Server, DefaultEventsMap, Socket } from "socket.io";
 import { PageName } from "../enums/pageNameEnum.js";
 import { RoomName } from "../enums/roomNameEnum.js";
 import { joinOnlyRoom } from "../utils/roomUpdates.js";
-import { clearDatabase, getAllActivePlayers, insertCard, insertNewRoom, resetPlayers, updatePlayer } from "../db.js";
 import { goToPage } from "./updatePageEvents.js";
+import { insertCard } from "../database/cardsTableFunctions.js";
+import { resetPlayers, clearDatabase } from "../database/db.js";
+import { getAllActivePlayers, updatePlayer } from "../database/playersTableFunctions.js";
+import { insertNewRoom } from "../database/roomsTableFunctions.js";
 
 function registerHostEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,

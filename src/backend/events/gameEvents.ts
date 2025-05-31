@@ -1,5 +1,7 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
-import { getNameBySocketId, getCards, getRoomNames } from "../db.js";
+import { getCards } from "../database/cardsTableFunctions.js";
+import { getNameBySocketId } from "../database/playersTableFunctions.js";
+import { getRoomNames } from "../database/roomsTableFunctions.js";
 
 function registerGameEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,

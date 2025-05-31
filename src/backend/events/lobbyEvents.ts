@@ -2,9 +2,9 @@ import { Server, DefaultEventsMap, Socket } from "socket.io";
 import { PageName } from "../enums/pageNameEnum.js";
 import { RoomName } from "../enums/roomNameEnum.js";
 import { joinOnlyRoom } from "../utils/roomUpdates.js";
-import { getNameBySocketId, removePlayer } from "../db.js";
 import { updateHostPage } from "./hostEvents.js";
 import { goToPage } from "./updatePageEvents.js";
+import { getNameBySocketId, removePlayer } from "../database/playersTableFunctions.js";
 
 function registerLobbyEvents(
     io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,

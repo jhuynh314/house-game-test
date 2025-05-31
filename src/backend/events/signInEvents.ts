@@ -2,9 +2,10 @@ import { Server, DefaultEventsMap, Socket } from "socket.io";
 import { PageName } from "../enums/pageNameEnum.js";
 import { RoomName } from "../enums/roomNameEnum.js";
 import { joinOnlyRoom } from "../utils/roomUpdates.js";
-import db, { getAllInactivePlayers, getPage, insertNewPlayer, updatePlayer } from "../db.js";
 import { updateHostPage } from "./hostEvents.js";
 import { goToPage } from "./updatePageEvents.js";
+import db from "../database/db.js";
+import { updatePlayer, insertNewPlayer, getPage, getAllInactivePlayers } from "../database/playersTableFunctions.js";
 
 function registerSignInEvents(
     io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,

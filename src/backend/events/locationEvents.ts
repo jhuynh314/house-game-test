@@ -1,7 +1,10 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
-import { getNameBySocketId, updateCard, getAnswerKey, getAnswer, getCards } from "../db.js";
 import { joinRoom, leaveRoom } from "../utils/roomUpdates.js";
 import { updateGamePage } from "./gameEvents.js";
+import { getAnswer } from "../database/answerkeyTableFunctions.js";
+import { updateCard, getCards } from "../database/cardsTableFunctions.js";
+import { getNameBySocketId } from "../database/playersTableFunctions.js";
+import { getAnswerKey } from "../database/roomsTableFunctions.js";
 
 function registerLocationEvents(
     io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
