@@ -1,9 +1,10 @@
 import { Server, DefaultEventsMap, Socket } from "socket.io";
 import { PageName } from "../enums/pageNameEnum.js";
 import { RoomName } from "../enums/roomNameEnum.js";
-import { goToPage, updateHostPage } from "./pageUpdates.js";
-import { joinOnlyRoom } from "./roomUpdates.js";
-import db, { getNameBySocketId, getPage, insertNewPlayer, removePlayer, updatePlayer } from "../db.js";
+import { joinOnlyRoom } from "../utils/roomUpdates.js";
+import db, { getAllInactivePlayers, getPage, insertNewPlayer, updatePlayer } from "../db.js";
+import { updateHostPage } from "./hostEvents.js";
+import { goToPage } from "./updatePageEvents.js";
 
 function registerSignInEvents(
     io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
@@ -36,15 +37,6 @@ function registerSignInEvents(
             console.log(`${name} has no page associated with them`);
         }
     });
-
-    socket.on("leave-game", async () => {
-        const name = await getNameBySocketId(socket.id);
-        console.log(`PLAYER LEFT: ${name} has signed out`);
-        removePlayer(socket.id);
-        goToPage(PageName.signInPage, socket.id, io);
-        joinOnlyRoom(RoomName.signIn, socket);
-        updateHostPage(io);
-    });
 }
 
 function nameHasSocket(name: string): Promise<boolean> {
@@ -73,6 +65,13 @@ function nameExists(name: string): Promise<boolean> {
             }
         });
     });
+}
+
+export async function updateSigninPage(
+    io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
+): Promise<void> {
+    const inactivePlayers = await getAllInactivePlayers();
+    io.to(RoomName.signIn).emit("update-signin", inactivePlayers);
 }
 
 export { registerSignInEvents };

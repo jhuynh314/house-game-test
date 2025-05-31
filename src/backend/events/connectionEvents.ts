@@ -4,7 +4,8 @@ import {
   updatePlayer,
 } from "../db.js";
 import { RoomName } from "../enums/roomNameEnum.js";
-import { updateHostPage, updateSigninPage } from "./pageUpdates.js";
+import { updateHostPage } from "./hostEvents.js";
+import { updateSigninPage } from "./signInEvents.js";
 
 function registerConnectionEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
