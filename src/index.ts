@@ -59,7 +59,7 @@ async function createAnswerKey(): Promise<void> {
     keycards.forEach(async (keycard, index) => {
       for (let i = 0; i <= 3; i++) {
         for (let j = 1; j <= 4; j++) {
-          insertAnswerKey(index + 1, columnLetters[i], j, keycard[i * 4 + j]);
+          insertAnswerKey(index + 1, columnLetters[i], j, keycard[i * 4 + (j-1)]);
         }
       }
     });

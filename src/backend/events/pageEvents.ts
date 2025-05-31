@@ -60,11 +60,11 @@ function registerPageEvents(
 
   socket.on(
     "get-room-question",
-    async (roomName:string) =>{
+    async (roomName: string) => {
       // Get question and answer for room
       const column = getRandomInt(0, 3);
       const columnLetters = ["A", "B", "C", "D"];
-      const row = getRandomInt(0,3);
+      const row = getRandomInt(1, 4);
       const answerKey = await getAnswerKey(roomName);
       const question = `What number is at ${columnLetters[column]}${row}`;
       const answer = await getAnswer(answerKey, columnLetters[column], row);
