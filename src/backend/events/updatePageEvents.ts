@@ -20,9 +20,6 @@ function registerUpdatePageEvents(
       case PageName.gamePage:
         await updateGamePage(io, socket);
         break;
-      case PageName.roomPage:
-        // Need user name and items the player has and items the room has
-        break;
       case PageName.signInPage:
         await updateSigninPage(io);
         break;
