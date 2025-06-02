@@ -32,11 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
         newH.setAttribute("position", index.toString());
 
         newH.addEventListener("click", () => {
-          const pcards = document.querySelectorAll(".room-card");
-          pcards.forEach((card) => {
-            card.classList.remove("highlighted");
-          });
-          newH.classList.add("highlighted");
+          if (newH.classList.contains("highlighted")) {
+            newH.classList.remove("highlighted");
+          } else {
+            const pcards = document.querySelectorAll(".room-card");
+            pcards.forEach((card) => {
+              card.classList.remove("highlighted");
+            });
+            newH.classList.add("highlighted");
+          }
         });
 
         roomCardContainer.appendChild(newH);

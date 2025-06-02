@@ -22,11 +22,15 @@ document.addEventListener("DOMContentLoaded", () => {
           newH.textContent = card;
 
           newH.addEventListener("click", () => {
-            const pcards = document.querySelectorAll(".player-card");
-            pcards.forEach((card) => {
-              card.classList.remove("highlighted");
-            });
-            newH.classList.add("highlighted");
+            if (newH.classList.contains("highlighted")) {
+              newH.classList.remove("highlighted");
+            } else {
+              const pcards = document.querySelectorAll(".player-card");
+              pcards.forEach((card) => {
+                card.classList.remove("highlighted");
+              });
+              newH.classList.add("highlighted");
+            }
           });
 
           playerCardContainer.appendChild(newH);
