@@ -40,3 +40,17 @@ export function getAnswerKey(roomName: string): Promise<number> {
     });
   });
 }
+
+export function getAllRooms(): Promise<string[]>{
+  const sql = `SELECT name FROM rooms ORDER BY keyCard ASC;`;
+  return new Promise((resolve, reject) => {
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        const names = (rows as { name: string }[]).map((row) => row.name);
+        resolve(names);
+      }
+    });
+  });
+}

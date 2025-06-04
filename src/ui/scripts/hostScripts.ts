@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const roomNameContainer = document.getElementById("room-name-container");
   const qrCodeImage = <HTMLImageElement>document.getElementById("qr");
 
-  socket.on("update-host", (names: string[]) => {
+  socket.on("update-host", (names: string[], rooms: string[]) => {
     if (playerContainer) {
       playerContainer.innerHTML = "";
       names.forEach((name) => {
@@ -18,10 +18,17 @@ document.addEventListener("DOMContentLoaded", () => {
         newp.textContent = name;
         playerContainer.appendChild(newp);
       });
+
+      const currentRooms = document.querySelectorAll<HTMLInputElement>(".room-name");
+      if (currentRooms.length === 0) {
+        rooms.forEach((room) => {
+          roomNameContainer!.appendChild(createRoom(room));
+        });
+      }
     }
   });
 
-  socket.on("update-qr-code", (dataUrl: string)=>{
+  socket.on("update-qr-code", (dataUrl: string) => {
     qrCodeImage!.src = dataUrl;
   });
 
@@ -42,29 +49,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (removePlayersButton) {
-    removePlayersButton.addEventListener("click", ()=>{
+    removePlayersButton.addEventListener("click", () => {
       socket.emit("remove-all-players");
     });
   }
 
   if (addRoomButton) {
     addRoomButton.addEventListener("click", () => {
-      const rooms = document.querySelectorAll<HTMLInputElement>(".room-name");
-      const numOfRooms = rooms.length;
-
-      const newDiv = document.createElement("div");
-      const newLabel = document.createElement("label");
-      const newInput = document.createElement("input");
-
-      newLabel.htmlFor = `room${numOfRooms + 1}-name`;
-      newLabel.textContent = `Room ${numOfRooms + 1}: `;
-
-      newInput.type = "text";
-      newInput.id = `room${numOfRooms + 1}-name`;
-      newInput.classList.add("room-name");
-
-      newDiv.appendChild(newLabel);
-      newDiv.appendChild(newInput);
+      const newDiv = createRoom("");
 
       if (roomNameContainer) {
         roomNameContainer.appendChild(newDiv);
@@ -83,3 +75,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+function createRoom(name: string): HTMLDivElement {
+  const rooms = document.querySelectorAll<HTMLInputElement>(".room-name");
+  const numOfRooms = rooms.length;
+
+  const newDiv = document.createElement("div");
+  const newLabel = document.createElement("label");
+  const newInput = document.createElement("input");
+
+  newLabel.htmlFor = `room${numOfRooms + 1}-name`;
+  newLabel.textContent = `Room ${numOfRooms + 1}: `;
+
+  newInput.type = "text";
+  newInput.id = `room${numOfRooms + 1}-name`;
+  newInput.value = name;
+  newInput.classList.add("room-name");
+
+  newDiv.appendChild(newLabel);
+  newDiv.appendChild(newInput);
+
+  return newDiv;
+}

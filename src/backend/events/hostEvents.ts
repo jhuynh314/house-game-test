@@ -6,7 +6,7 @@ import { goToPage } from "./updatePageEvents.js";
 import { insertCard } from "../database/cardsTableFunctions.js";
 import { resetPlayers, clearDatabase } from "../database/db.js";
 import { getAllActivePlayers, updatePlayer } from "../database/playersTableFunctions.js";
-import { insertNewRoom } from "../database/roomsTableFunctions.js";
+import { getAllRooms, insertNewRoom } from "../database/roomsTableFunctions.js";
 
 function registerHostEvents(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
@@ -80,7 +80,8 @@ export async function updateHostPage(
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
 ): Promise<void> {
   const players = await getAllActivePlayers();
-  io.to(RoomName.host).emit("update-host", players);
+  const rooms = await getAllRooms();
+  io.to(RoomName.host).emit("update-host", players, rooms);
 }
 
 function shuffleArray<T>(array: T[]): T[] {
