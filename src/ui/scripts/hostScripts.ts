@@ -67,10 +67,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (removeRoomButton) {
     removeRoomButton.addEventListener("click", () => {
       const rooms = document.querySelectorAll<HTMLInputElement>(".room-name");
-      const lastRoom = rooms[rooms.length - 1];
-      const parent = lastRoom.parentElement;
-      if (parent) {
-        parent.remove();
+      if(rooms.length !== 1){
+        const lastRoom = rooms[rooms.length - 1];
+        const parent = lastRoom.parentElement;
+        if (parent) {
+          parent.remove();
+        }
       }
     });
   }
