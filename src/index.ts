@@ -35,7 +35,7 @@ async function main() {
   });
 }
 
-async function createAnswerKey(): Promise<void> {
+export async function createAnswerKey(): Promise<void> {
   const key = await isAnswerKeyEmpty();
   if (key) {
     console.log("Creating answer key");

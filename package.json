@@ -12,8 +12,7 @@
     "start-server": "node ./dist/index.js",
     "start": "npm run build && npm run start-server",
     "start-no-build": "npm run copy-html && npm run copy-css && npm run start-server",
-    "electron": "electron .",
-    "app": "concurrently \"npm run start\" \"wait-on tcp:3000 && electron .\" -k"
+    "electron": "electron ."
   },
   "repository": {
     "type": "git",
